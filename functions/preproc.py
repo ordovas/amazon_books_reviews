@@ -30,13 +30,13 @@ def var_pca(data,comps=np.arange(2,20)):
     return comps,variance
 
 
-def var_svc(data,step=50,ini_nc=300):
+def var_svc(data,step=250,ini_nc=500,var=0.8):
     variance = []
     t_var=0
     nc=ini_nc
     i=0
     comps=[]
-    while t_var < 0.8:
+    while t_var < var:
         comps.append(nc+i*step)
         svd = TruncatedSVD(n_components=nc+i*step,random_state=1)
         svd.fit(data)
@@ -47,4 +47,10 @@ def var_svc(data,step=50,ini_nc=300):
         
     return comps,variance,svd
 
-
+def svc_dimred(data,comps=500):
+   
+    svd = TruncatedSVD(n_components=comps,random_state=1)
+    svd.fit(data)
+    t_var = svd.explained_variance_ratio_.sum()
+        
+    return comps,t_var,svd
