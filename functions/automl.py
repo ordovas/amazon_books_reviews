@@ -42,28 +42,28 @@ class BestClassifier(BaseEstimator):
         # Logistic regression grid search
         print("Analyzing "+classifier_type)
         if classifier_type == 'LogisticRegression':
-            self.classifier_ = LogisticRegression(max_iter=5000)
-            search=GridSearchCV(LogisticRegression(max_iter=5000) , self.parameters['LogisticRegression'],
+            self.classifier_ = LogisticRegression(max_iter=10000)
+            search=GridSearchCV(self.classifier_ , self.parameters['LogisticRegression'],
                                 n_jobs=-1, cv=5,verbose=0)
             search.fit(X, y)
-            self.classifier_ = LogisticRegression(max_iter=5000,**search.best_params_)
+            self.classifier_ = LogisticRegression(max_iter=10000,**search.best_params_)
 
             
             
         # Linear SVC grid search    
         elif classifier_type == 'LinearSVC':
-            self.classifier_ = LinearSVC(max_iter=5000)
+            self.classifier_ = LinearSVC(max_iter=10000,class_weight="balanced")
             search=GridSearchCV(self.classifier_ , self.parameters['LinearSVC'], n_jobs=-1, cv=5,verbose=0)
             search.fit(X, y)
-            self.classifier_ = LinearSVC(max_iter=5000,**search.best_params_)
+            self.classifier_ = LinearSVC(max_iter=10000,class_weight="balanced",**search.best_params_)
 
             
         # SGD Classifier grid search    
         elif classifier_type == 'SGDClassifier':
-            self.classifier_ = SGDClassifier(max_iter=5000)
+            self.classifier_ = SGDClassifier(max_iter=10000,class_weight="balanced")
             search=GridSearchCV(self.classifier_ , self.parameters['SGDClassifier'], n_jobs=-1, cv=5,verbose=0)
             search.fit(X, y)
-            self.classifier_ = SGDClassifier(max_iter=5000,**search.best_params_)
+            self.classifier_ = SGDClassifier(max_iter=10000,class_weight="balanced",**search.best_params_)
 
             
         # K-nearest neighbors classifier grid search    
@@ -84,10 +84,10 @@ class BestClassifier(BaseEstimator):
             
         # Random Forest classifier grid search    
         elif classifier_type == 'RandomForestClassifier':
-            self.classifier_ = RandomForestClassifier()
+            self.classifier_ = RandomForestClassifier(class_weight="balanced")
             search=GridSearchCV(self.classifier_ , self.parameters['RandomForestClassifier'], n_jobs=-1, cv=5,verbose=0)
             search.fit(X, y)
-            self.classifier_ = RandomForestClassifier(**search.best_params_)
+            self.classifier_ = RandomForestClassifier(class_weight="balanced",**search.best_params_)
             
         # Error mensage if the method is not listed    
         else:
@@ -113,7 +113,7 @@ class BestClassifier(BaseEstimator):
                 self.bestclassifier_=clf
         
         print("Best model:")
-        print(clf.bestclassifier_)
+        print(clf)
         
         
     # When we've got the best classifier, these functions common to all classifiers can be used
