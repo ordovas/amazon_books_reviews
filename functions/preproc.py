@@ -13,10 +13,12 @@ import pandas as pd
 
 # Returns a DataFrame with the TF-IDF vectors for each review
 # and with the column names matching the feature names
-def tfidf(data,min_df=5):
-    v = TfidfVectorizer(min_df=min_df)
-    x = v.fit_transform(data).toarray()
-    return pd.DataFrame(x, columns=v.get_feature_names())
+
+def tfidf(data_train, data_test, min_df=5):
+    v=TfidfVectorizer(min_df=min_df)
+    x_train = v.fit_transform(data_train).toarray()
+    x_test = v.transform(data_test).toarray()
+    return pd.DataFrame(x_train, columns=v.get_feature_names()),pd.DataFrame(x_test, columns=v.get_feature_names())
 
 
 def var_pca(data,comps=np.arange(2,20)):

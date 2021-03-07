@@ -20,7 +20,7 @@ class BestClassifier(BaseEstimator):
         # Stores for each model (key) which parameters and which values are we coing to search
         # for the best model analysis
         self.parameters = {}
-        self.parameters['LogisticRegression']={"l1_ratio":np.linspace(0,1,10),"C":np.logspace(-4,2,10)}
+        self.parameters['LogisticRegression']={"l1_ratio":np.linspace(0,1,5),"C":np.logspace(-4,2,10)}
         self.parameters['LinearSVC']={"C":np.logspace(-4,2,10), "penalty":["l1", "l2"]}
         self.parameters['SGDClassifier']={"penalty":["elasticnet"],"alpha":np.logspace(-4,2,10),
                                           "l1_ratio":np.linspace(0,1,10)} 
