@@ -44,4 +44,4 @@ The confusion matrix of the test sample (normalized to the true ratings):
 
 ## Final thoughts
 
-This is just an approach that certainly can be improved, but very useful as a Natural Language Processing exercise to learn, so feel free to fork it and practice by yourself!
+This is just an approach that certainly can be improved, but very useful as a Natural Language Processing exercise to learn, so feel free to fork it and practice by yourself! And feedback is always welcome :)
