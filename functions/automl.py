@@ -20,17 +20,17 @@ class BestClassifier(BaseEstimator):
         # Stores for each model (key) which parameters and which values are we coing to search
         # for the best model analysis
         self.parameters = {}
-        self.parameters['LogisticRegression']={"l1_ratio":np.linspace(0,1,5),"C":np.logspace(-4,2,10)}
+        self.parameters['LogisticRegression']={"penalty":["l1","l2"],"C":np.logspace(-4,2,10)}
         self.parameters['LinearSVC']={"C":np.logspace(-4,2,10), "penalty":["l1", "l2"]}
         self.parameters['SGDClassifier']={"penalty":["elasticnet"],"alpha":np.logspace(-4,2,10),
                                           "l1_ratio":np.linspace(0,1,10)} 
         self.parameters['KNeighborsClassifier']={"n_neighbors":[3,5,10,20,50,100],
                                                  "metric":["euclidean","minkowski","manhattan","chebyshev"]}
         self.parameters['GaussianNB']={'var_smoothing': np.logspace(0,-9, num=20)}
-        self.parameters['RandomForestClassifier']={'n_estimators': [5,10,25],
+        self.parameters['RandomForestClassifier']={'n_estimators': [5,10,15],
                                                    'max_features': ['auto', 'sqrt', 'log2'],
-                                                   'min_samples_split':[2,5,10,20,30],
-                                                   'max_depth' : [None,5,10,25,50,100,250,500],
+                                                   'min_samples_split':[5,10,20],
+                                                   'max_depth' : [None,5,10,25,50,100],
                                                    'criterion' :['gini', 'entropy']}
         # This function decides what is the best model and which are the best parameters
         self.decide(X,y) 
@@ -42,12 +42,11 @@ class BestClassifier(BaseEstimator):
         # Logistic regression grid search
         print("Analyzing "+classifier_type)
         if classifier_type == 'LogisticRegression':
-            self.classifier_ = LogisticRegression(penalty="elasticnet", max_iter=10000,class_weight="balanced",solver="saga")
+            self.classifier_ = LogisticRegression( max_iter=10000,class_weight="balanced")
             search=GridSearchCV(self.classifier_ , self.parameters['LogisticRegression'],
                                 n_jobs=-1, cv=5,verbose=0)
             search.fit(X, y)
-            self.classifier_ = LogisticRegression(penalty="elasticnet",max_iter=10000,solver="saga",
-                                                  class_weight="balanced",**search.best_params_)
+            self.classifier_ = LogisticRegression(max_iter=10000, class_weight="balanced",**search.best_params_)
 
             
             
@@ -114,7 +113,7 @@ class BestClassifier(BaseEstimator):
                 self.bestclassifier_=clf
         
         print("Best model:")
-        print(clf)
+        print(self.bestclassifier_)
         
         
     # When we've got the best classifier, these functions common to all classifiers can be used
