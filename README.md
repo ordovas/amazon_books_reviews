@@ -1,6 +1,6 @@
 # Predicting review numeric ratings based exclusively on the text of the review
 
-Given a text review, ¿can we guess, from 1 to 5 stars, which is the score of the review? We certainly can estimate it roughly.
+Given a text review, can we guess, from 1 to 5 stars, which is the score of the review? We certainly can estimate it roughly.
 
 I downloaded from the [Amazon Review Data (2018)](https://nijianmo.github.io/amazon/index.html) the small book subset to perform this exercise. I created a MongoDB collection for this dataset and designed an exercise for learning purposes.
 
